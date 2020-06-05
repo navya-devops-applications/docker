@@ -1,40 +1,38 @@
-node{
-     
-    stage('SCM Checkout'){
-        git url: 'https://github.com/MithunTechnologiesDevOps/java-web-app-docker.git',branch: 'master'
+node
+{
+    def mavenHome = tool name: "maven 3.6.2"
+    def buildNumber = BUILD_NUMBER
+    stage('CheckoutCode')
+    {
+        git credentialsId: '33b14771-b858-4cc9-aac8-40a58e2ee672', url: 'https://github.com/navya-devops-applications/docker.git'
     }
-    
-    stage(" Maven Clean Package"){
-      def mavenHome =  tool name: "Maven-3.5.6", type: "maven"
-      def mavenCMD = "${mavenHome}/bin/mvn"
-      sh "${mavenCMD} clean package"
-      
-    } 
-    
-    
-    stage('Build Docker Image'){
-        sh 'docker build -t dockerhandson/java-web-app .'
+    stage('Build'){
+        sh "${mavenHome}/bin/mvn clean package"
     }
-    
-    stage('Push Docker Image'){
-        withCredentials([string(credentialsId: 'Docker_Hub_Pwd', variable: 'Docker_Hub_Pwd')]) {
-          sh "docker login -u dockerhandson -p ${Docker_Hub_Pwd}"
-        }
-        sh 'docker push dockerhandson/java-web-app'
-     }
-     
-      stage('Run Docker Image In Dev Server'){
-        
-        def dockerRun = ' docker run  -d -p 8080:8080 --name java-web-app dockerhandson/java-web-app'
-         
-         sshagent(['DOCKER_SERVER']) {
-          sh 'ssh -o StrictHostKeyChecking=no ubuntu@172.31.20.72 docker stop java-web-app || true'
-          sh 'ssh  ubuntu@172.31.20.72 docker rm java-web-app || true'
-          sh 'ssh  ubuntu@172.31.20.72 docker rmi -f  $(docker images -q) || true'
-          sh "ssh  ubuntu@172.31.20.72 ${dockerRun}"
-       }
-       
+    stage('CreatingdockerImage')
+    {
+        sh "docker build -t navyadevops/docker:${buildNumber} ."
     }
-     
-     
+    stage('Authenticating')
+    {
+    withCredentials([string(credentialsId: 'Docker_hub_pwd', variable: 'Docker_hub_pwd')]) 
+    {
+    sh " docker login -u navyadevops -p ${Docker_hub_pwd} "
+    }
+    }
+    stage('Pushimage')
+    {
+        sh "docker push navyadevops/docker:${buildNumber}"
+    }
+    stage('pullimage')
+    {
+        sh "docker pull navyadevops/docker:${buildNumber}"
+    }
+    stage('creating container and Deploying')
+    {
+    sshagent(['5c4106cc-e4bc-498d-ae31-bf48272070d0']) 
+    {
+        sh "ssh -o StrictHostKeyChecking=no ubuntu@13.127.98.105 docker run -d -p 8080:8080 --name java-web-appcontainer navyadevops/docker:${buildNumber}"
+    }
+    }
 }
