@@ -32,6 +32,7 @@ node
     {
     sshagent(['5c4106cc-e4bc-498d-ae31-bf48272070d0']) 
     {
+        sh "ssh -o StrictHostKeyChecking=no ubuntu@13.127.98.105 docker rm -f java-web-appcontainer || true"
         sh "ssh -o StrictHostKeyChecking=no ubuntu@13.127.98.105 docker run -d -p 8080:8080 --name java-web-appcontainer navyadevops/docker:${buildNumber}"
     }
     }
