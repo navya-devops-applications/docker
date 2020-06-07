@@ -17,4 +17,9 @@ stage('GeneratingArtifacts')
 {
 sh "$mavenHome/bin/mvn deploy"
 }
+stage('DeployingtoApplicaionServer')
+{
+sshagent(['b66c02da-d111-425c-a1dc-d5886c358ddc']) {
+    sh "scp -o StrictContextKeyChanging=no /var/lib/jenkins/workspace/filpkart-pipeline/target/java-web-app-1.0 -SNAPSHOT.war root@/opt/apache-tomcat-9.0.35/webapps
+}
 }
