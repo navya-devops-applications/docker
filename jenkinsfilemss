@@ -19,7 +19,7 @@ sh "$mavenHome/bin/mvn deploy"
 }
 stage('DeployingtoApplicaionServer')
 {
-sshagent(['b66c02da-d111-425c-a1dc-d5886c358ddc']) {
-    sh "scp -o StrictHostKeyChanging=no /var/lib/jenkins/workspace/filpkart-pipeline/target/java-web-app-1.0 -SNAPSHOT.war root@13.233.155.200:/opt/apache-tomcat-9.0.35/webapps
+sshagent(['c0cf6f48-ac9d-4ee1-888d-ad36f720e3e5']) {
+    sh "scp -o StrictHostKeyChanging=no /var/lib/jenkins/workspace/filpkart-pipeline/target/java-web-app-1.0 -SNAPSHOT.war ec2-user@13.233.155.200:/opt/apache-tomcat-9.0.35/webapps
 }
 }
