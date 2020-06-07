@@ -98,8 +98,8 @@
 		    <version>1.2.3</version>
 		</dependency>
 
-	<!--</dependencies>
-	<distributionManagement> 
+	
+	<!--<distributionManagement> 
 	    <repository>
 	      <id>nexus</id>
 	      <name>Mithun Technologies Releases Nexus Repository</name>
