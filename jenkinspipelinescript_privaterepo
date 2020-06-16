@@ -17,7 +17,7 @@ sh "docker build -t 172.31.37.97:8081/java-web-application:${buildNumber} ."
 stage("pushing image")
 {
 withCredentials([string(credentialsId: 'docker_privaterepo', variable: 'docker_privaterepo')]) {
-    sh "docker push -u admin -p ${docker_privaterepo} 172.31.37.97:8081
+    sh "docker push -u admin -p ${docker_privaterepo} 172.31.37.97:8081"
 }
 }
 }
