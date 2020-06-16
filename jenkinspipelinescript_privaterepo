@@ -1,7 +1,7 @@
 node{
 
 def mavenHome=tool name: "maven 3.6.2"
-def buildNumber= BUILDNUMBER
+def buildNumber= BUILD_NUMBER
 stage("Checkout code")
 {
 git credentialsId: '33b14771-b858-4cc9-aac8-40a58e2ee672', url: 'https://github.com/navya-devops-applications/docker.git'
