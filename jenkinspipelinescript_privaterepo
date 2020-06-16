@@ -28,7 +28,7 @@ withCredentials([string(credentialsId: 'docker_privaterepo', variable: 'docker_p
    sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.36.39 docker login -u admin -p ${docker_privaterepo} 172.31.37.97:9999"
  }
  sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.36.39 docker rm -f javacontainer || true"
- sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.36.39 docker run -d --name javacontainer -p 8081:8080 72.31.37.97:9999/java-web-application:${buildNumber}"
+ sh "ssh -o StrictHostKeyChecking=no ec2-user@172.31.36.39 docker run -d --name javacontainer -p 8081:8080 172.31.37.97:9999/java-web-application:${buildNumber}"
 }
 }
 }
