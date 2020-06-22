@@ -26,7 +26,7 @@ stage("Deploying the image")
 {
 sshagent(['ec2-user']) {
 sh "ssh StrictHostKeyChecking=no ec2-user@13.232.155.25 docker service rm javawebapp || true"
-sh "ssh StrictHostKeyChecking=no ec2-user@13.232.155.25 docker service create --name javawebapp -p 8080:8080 --constraints "node.labels.name==Appserver" --replicas 3 --network docker_gwbridge navyadevops/javawebapp:${buildnumber}
+sh "ssh StrictHostKeyChecking=no ec2-user@13.232.155.25 docker service create --name javawebapp -p 8080:8080 --constraints "node.labels.name==Appserver" --replicas 3 --network docker_gwbridge navyadevops/javawebapp:${buildnumber}"
 }
 }
 }
