@@ -17,7 +17,7 @@ sh " docker build -t navyadevops/javawebapp:${buildnumber} ."
 stage("Push image")
 {
 withCredentials([string(credentialsId: 'Docker_hub_pwd', variable: 'dockerhubpwd')]) {
-   docker login -u navyadevops -p ${dockerhubpwd} 
+   sh "docker login -u navyadevops -p ${dockerhubpwd}"
 }
 sh " docker push navyadevops/javawebapp:${buildnumber}"
 }
